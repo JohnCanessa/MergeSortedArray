@@ -12,7 +12,7 @@ LeetCode web site.
 If interested in my approach and comments I invite you to 
 visit the following post in my blog:
 
-<T.B.D.>
+https://www.johncanessa.com/2021/03/10/merge-sorted-array/
 
 Remember that one of the best ways to learn is to read and experiment.
 
