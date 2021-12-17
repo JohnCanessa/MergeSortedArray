@@ -4,8 +4,10 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
+
 /**
- * 
+ * LeetCode 88. Merge Sorted Array
+ * https://leetcode.com/problems/merge-sorted-array/
  */
 public class MergeSortedArray {
 
@@ -15,27 +17,29 @@ public class MergeSortedArray {
      * such that it has enough space to hold additional 
      * elements from nums2.
      * 
-     * Execution time: O(n + m)
+     * https://stackoverflow.com/questions/25899249/is-n-or-nlogn-better-than-constant-or-logarithmic-time/25899325
+     * When looking typical cases of complexity in big O notation:
+     *  O(1) < O(log n) < O(n) < O(n log n) < O(n^2)
      * 
-     * Runtime: 2 ms, faster than 6.98% of Java online submissions for Merge Sorted Array.
-     * Memory Usage: 39 MB, less than 81.89% of Java online submissions for Merge Sorted Array.
+     * Runtime: O(n + m) - Space: O(n + m)
+     * 
+     * Runtime: 2 ms, faster than 6.98% of Java online submissions.
+     * Memory Usage: 39 MB, less than 81.89% of Java online submissions.
      */
     static void merge1(int[] nums1, int m, int[] nums2, int n) {
 
         // **** sanity check(s) ****
-        if (m == 0 && n == 0)
-            return;
-        if (n == 0)
-            return;
+        if (m == 0 && n == 0) return;
+        if (n == 0) return;
 
         // **** initialization ****
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(n + m, (a,b) -> (a - b) );
 
-        // **** add elements from nums1 - O(m) ****
+        // **** add elements from nums1 - O(log(m)) ****
         for (int i = 0; i < m; i++)
             pq.add(nums1[i]);
 
-        // **** add elements from nums2 - O(n)****
+        // **** add elements from nums2 - O(log(n))****
         for (int i = 0; i < n; i++)
             pq.add(nums2[i]);
 
@@ -51,7 +55,11 @@ public class MergeSortedArray {
      * such that it has enough space to hold additional 
      * elements from nums2.
      * 
-     * Execution time: O(n + m)
+     * https://stackoverflow.com/questions/25899249/is-n-or-nlogn-better-than-constant-or-logarithmic-time/25899325
+     * When looking typical cases of complexity in big O notation:
+     *  O(1) < O(log n) < O(n) < O(n log n) < O(n^2)
+     * 
+     * Runtime: O(n + m) - Space: O(1)
      * 
      * Runtime: 0 ms, faster than 100.00% of Java online submissions.
      * Memory Usage: 39 MB, less than 71.39% of Java online submissions.
@@ -59,9 +67,9 @@ public class MergeSortedArray {
     static void merge(int[] nums1, int m, int[] nums2, int n) {
 
         // ***** initialization ****
-        m--;                                // last element in nums1
-        n--;                                // last element in nums2
-        int i = nums1.length - 1;           // current element in nums2
+        int i = m + n + - 1;        // current element in nums2
+        m--;                        // last element in nums1
+        n--;                        // last element in nums2
 
         // **** copy sorted integers from nums2 or nums1 to nums1 (right to left) ****
         while (i >= 0 && m >= 0 && n >= 0) {
@@ -69,11 +77,18 @@ public class MergeSortedArray {
                 nums1[i--] = nums1[m--];
             else
                 nums1[i--] = nums2[n--];
+
+            // ???? ????
+            System.out.println("<<< nums1: " + Arrays.toString(nums1));
         }
 
         // **** copy remaining sorted integers from nums2 to nums1 (right to left) ****
-        while (n >= 0)
+        while (n >= 0) {
             nums1[i--] = nums2[n--];
+
+            // ???? ????
+            System.out.println("<<< nums1: " + Arrays.toString(nums1));
+        }
     }
 
 
@@ -124,7 +139,6 @@ public class MergeSortedArray {
         System.out.println("main <<< nums1: " + Arrays.toString(nums1));
         System.out.println("main <<< nums2: " + Arrays.toString(nums2));
 
-
         // **** make a copy of nums1 for later use ****
         int[] nums3 = nums1.clone();
 
@@ -132,20 +146,19 @@ public class MergeSortedArray {
         merge1(nums1, m, nums2, n);
 
         // ???? display merged array ????
-        System.out.println("main <<< nums1: " + Arrays.toString(nums1) + "\n");
-
+        System.out.println("main <<< merge1: " + Arrays.toString(nums1));
 
         // **** restore nums1 ****
         nums1 = Arrays.copyOf(nums3, nums3.length);
 
         // ???? ????
-        System.out.println("main <<< nums1: " + Arrays.toString(nums1));
-        System.out.println("main <<< nums2: " + Arrays.toString(nums2));
+        // System.out.println("main <<< nums1: " + Arrays.toString(nums1));
+        // System.out.println("main <<< nums2: " + Arrays.toString(nums2));
 
         // **** merge the two arrays into the first array ****
         merge(nums1, m, nums2, n);
 
         // ???? display merged array ????
-        System.out.println("main <<< nums1: " + Arrays.toString(nums1));
+        System.out.println("main <<<  merge: " + Arrays.toString(nums1));
     }
 }
